@@ -1,0 +1,103 @@
+html,body,#app{
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+.el-breadcrumb{
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+.el-card{
+    /*box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1) !important;*/
+    border-radius: 6px;
+}
+.el-pagination{
+    margin-top: 15px;
+}
+.el-table{
+    margin-top: 15px;
+    font-size: 14px;
+
+}
+.el-form{
+    margin-top:15px;
+    font-size: 14px;
+}
+.upload-demo{
+    width: 100%;
+
+
+}
+.upload-demo div{
+    width: 100%;
+}
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+}
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+}
+.clearfix{
+    zoom: 0;
+}
+.clearfix:after {
+    display: block;
+    height: 0;
+    clear: both;
+    content: "";
+    visibility: hidden;
+}
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+/*:after, :before {*/
+/*    box-sizing: border-box;*/
+/*    margin: 0;*/
+/*}*/
+.el-tag + .el-tag {
+    margin-left: 10px;
+}
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+
+.btn-delete-hover-red:hover{
+    color: red;
+    border-color: red;
+    background-color: #ffffff;
+}
+.btn-finish-hover-green:hover{
+    color: limegreen;
+    border-color: limegreen;
+    background-color: #ffffff;
+}
