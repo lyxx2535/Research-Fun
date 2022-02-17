@@ -1,0 +1,34 @@
+server:
+ port: 8088
+
+spring:
+ datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://42.193.37.120:9711/rgms # 实际部署的数据库
+#  url: jdbc:mysql://119.29.53.191:4328/rgms_dev # 开发时的数据库
+  username: root
+  password: rgms12345!@#$%
+ jpa:
+  hibernate:
+   ddl-auto: update
+  show-sql: true
+ servlet:
+  multipart:
+   max-file-size: -1 # 配置上传单个文件最大大小不限
+   max-request-size: -1 # 配置上传文件时单次请求最大大小不限
+
+file:
+ download-url: http://42.193.37.120:9712/file/download
+# download-url: http://119.29.53.191:8088/file/download
+ portrait-path: /usr/local/rgms-resources/portrait
+ document-path: /usr/local/rgms-resources/document
+ comment-img-path: /usr/local/rgms-resources/comment-img
+
+# portrait-path: C:\Users\dyj\Desktop
+# document-path: C:\Users\dyj\Desktop
+# comment-img-path: C:\Users\dyj\Desktop
+user:
+ default-portrait-url: http://42.193.37.120:9712/file/download/PORTRAIT/cd95fe4b-bed8-431d-90b5-166dccc011da_default.jpg
+
+research-group:
+ direction-separator: "; "
