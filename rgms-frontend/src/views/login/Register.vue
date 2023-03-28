@@ -21,6 +21,10 @@
                         <el-option label="学生" value="STUDENT"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item >
+                    <el-input v-model="registerForm.check" prefix-icon="el-icon-edit-outline" clearable style="width:50%" placeholder="请输入验证码"></el-input><img  @click="changeCheckCode" :src="imgCode">
+
+                </el-form-item>
                 <!--按钮区域-->
                 <el-form-item class="btns">
                     <el-button type="primary" round @click="register">注册</el-button>
@@ -50,6 +54,8 @@
                     userType: '',
                     password: '',
                     email: '',
+                    check:'',
+                    sessionId:''
                 },
                 registerFormRules:{
                     username:[
@@ -64,11 +70,43 @@
                         { required: true, message: '请输入注册邮箱', trigger: 'blur' },
                         { validator: checkEmail, trigger:'blur'}
                     ],
-                }
+                },
+                imgCode:''
             }
         },
         created(){
+            var that=this
+            //this.$axios.post('/user/checkCode',{responseType: 'blob',withCredentials:true}).then(function(response){
+                /*console.log(response.data)
+                return 'data:image/png;base64,' /*+ btoa(
+                    new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    )*/
+                    //console.log(response.data)
+                    //that.imgCode=window.URL.createObjectURL(new Blob([response.data]))
+                //}).then(data => {
+                    //that.imgCode = data
+                    //console.log(that.imgCode)
+                //})
+                //console.log(that.imgCode)
+                //var that=this
+            this.$axios.post('/session/getSession').then(
+                function(response){
+                    that.registerForm.sessionId=response.data
+                    console.log(that.registerForm.sessionId)
 
+
+                    that.$axios.post('/user/checkCode?sessionId='+that.registerForm.sessionId,{},{/*withCredentials:true,*/responseType: 'arraybuffer'}).then(function(response){
+                    console.log(response)
+                        return 'data:image/png;base64,' + btoa(
+                        new Uint8Array(response.data)
+                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                        )
+                    }).then(data => {
+                        that.imgCode = data
+                    })
+                }
+
+            )
         },
         methods:{
             backToLogin(){
@@ -78,24 +116,50 @@
                 this.$refs.registerFormRef.validate(async valid => {
                     if(!valid){
                         this.$message.error({message: '注册信息校验未通过，请重新注册！', duration:1500, showClose:true});
+                        this.changeCheckCode()
                     }else{
                         let form = {};
+                        form.sessionId=this.registerForm.sessionId;
+                        form.check=this.registerForm.check;
                         form.username = this.registerForm.username;
                         form.password = this.registerForm.password;
                         form.email = this.registerForm.email;
                         form.userType = this.registerForm.userType;
                         this.$axios.post('/user/register',form).then(res => {
                             if(res.data !== ""){
-                                this.$message.error({message: res.data.errorMsg,duration:1500, showClose:true})
+                                this.$message.error({message: res.data.errorMsg,duration:1500, showClose:true});
+                                this.changeCheckCode()
                             }else{
                                 this.$router.push('/login');
-                                this.$message.success({message: "注册成功！",duration:1500, showClose:true})
+                                this.$message.success({message: "注册成功！请前往注册邮箱激活该账号",duration:1500, showClose:true})
                             }
                         }).catch(err => {
                             this.$message.error({message: err, duration: 1500, showClose: true});
                         })
                     }
                 })
+            },
+            changeCheckCode(){
+                var that=this
+                /*this.$axios.post('/user/checkCode',{responseType: 'arraybuffer'},{withCredentials:true}).then(function(response){
+                    console.log(response)
+                return 'data:image/png;base64,' + btoa(
+                    new Uint8Array(response.data)
+                    .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    )
+                }).then(data => {
+                    that.imgCode = data
+                })*/
+                this.$axios.post('/user/checkCode?sessionId='+that.registerForm.sessionId,{},{/*withCredentials:true,*/responseType: 'arraybuffer'}).then(function(response){
+                    console.log(response)
+                return 'data:image/png;base64,' + btoa(
+                    new Uint8Array(response.data)
+                    .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    )
+                }).then(data => {
+                    that.imgCode = data
+                })
+                //console.log(that.imgCode)
             }
         }
     }
@@ -108,7 +172,7 @@
 }
 .register-box{
     width: 450px;
-    height: 350px;
+    height: 400px;
     background-color: white;
     border-radius: 5px;
     position: absolute;

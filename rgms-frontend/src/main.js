@@ -7,6 +7,7 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import qs from 'qs'
+
 //引入全局样式表
 import './assets/css/global.css'
 
@@ -24,4 +25,5 @@ new Vue({
   store: store,
   render: h => h(App)
 }).$mount('#app')
+
 

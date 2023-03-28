@@ -1,0 +1,195 @@
+maintainer: # 开发者
+  name: lqf
+  email: 201830168@smail.nju.edu.cn
+
+
+spring:
+  profiles:
+    active: pro       # 使用生产测试环境
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mail:
+    host: smtp.163.com
+    password: TOCUYIGWAQKHDDOI
+    username: researchfun2022@163.com
+    port:
+    default-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  #配置别名扫描
+  type-aliases-package: nju.researchfun.entity
+  configuration:
+    map-underscore-to-camel-case: true # 驼峰自动映射
+    cache-enabled: false # 禁用缓存
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto # 全局配置id自增
+      table-prefix: t_ #全局表名前缀配置
+  type-enums-package: nju.researchfun.constant   # 枚举扫描
+  type-handlers-package: nju.researchfun.handler # 适配器扫描
+user:
+  default-portrait-url: ${file.download-url}/PORTRAIT/default.jpg
+research-group:
+  direction-separator: "; "
+
+#微信扫码配置
+wx:
+  appId: wx313cc9894c46bcda
+  appSecret: ed0a17a731fc06418739f129d76f2b9c
+  server: http://rgm.zhiyou.tech
+  qrCodeUrl: https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect                                     #获取二维码
+  tokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code       #基础接口的token
+  openIdUrl: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s      #获取openId
+  userInfoUrl: https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%slang=zh_CN            #获取用户
+  token: weixin                 #验证签名
+
+# 百度翻译配置
+baidu:
+  appId: 20220427001192662
+  appSecret: 0upxTZKyvjTT0v0GZhex
+  TRANS_API_HOST: http://api.fanyi.baidu.com/api/trans/vip/translate
+  default_from: auto  # 自动识别
+  default_to: zh      # 翻译成中文
+  url: ${baidu.TRANS_API_HOST}?q=%s&from=%s&to=%s&appid=%s&salt=%s&sign=%s
+  picture:
+    cuid: APICUID
+    mac: mac
+    version: 3
+    url: https://fanyi-api.baidu.com/api/trans/sdk/picture?from=%s&to=%s&appid=%s&salt=%s&sign=%s&cuid=${baidu.picture.cuid}&mac=${baidu.picture.mac}&version=${baidu.picture.version}&paste=%s
+    postUrl: https://fanyi-api.baidu.com/api/trans/sdk/picture
+  voice:
+    url: https://fanyi-api.baidu.com/api/trans/v2/voicetrans
+    default_format: pcm
+---
+
+#开发环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/researchFun?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: 888888
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 80
+
+file:
+  download: /file/download/**
+  base: C:/Users/18933/Desktop/DC/file/
+  download-url: ${localhost}/file/download
+  portrait-path: ${file.base}portrait
+  document-path: ${file.base}document
+  voice-path: ${file.base}voice
+  comment-img-path: ${file.base}comment_img
+
+# 项目访问路径
+localhost: http://172.28.102.236
+
+---
+
+#生产环境
+
+spring:
+  config:
+    activate:
+      on-profile: pro
+  datasource:
+    url: jdbc:mysql://42.193.37.120:9713/researchfun?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: researchfun@888
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 9712
+
+
+file:
+  download: /file/download/**
+  base: /usr/local/researchfun/resources/
+  download-url: ${localhost}/file/download
+  portrait-path: ${file.base}portrait
+  document-path: ${file.base}document
+  comment-img-path: ${file.base}comment-img
+  voice-path: ${file.base}voice
+  weeklyWritingTemplate: ${file.download-url}/PDF_DOCUMENT/weeklyWriting.docx
+  weeklyName: weekly.docx # 生成周报的名字
+
+# 项目访问路径
+localhost: http://42.193.37.120:${server.port}
+
+---
+#本地+线上数据库
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mysql://42.193.37.120:9713/researchfun?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: researchfun@888
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 80
+
+file:
+  download: /file/download/**
+  base: C:/Users/18933/Desktop/DC/file/
+  download-url: ${localhost}/file/download
+  portrait-path: ${file.base}portrait
+  document-path: ${file.base}document
+  comment-img-path: ${file.base}comment_img
+  voice-path: ${file.base}voice
+  weeklyWritingTemplate: ${file.document-path}/weeklyWriting.docx
+  weeklyName: weekly.docx # 生成周报的名字
+
+# 项目访问路径
+localhost: http://192.168.67.1
+
+---
+
+#生产测试环境
+
+spring:
+  config:
+    activate:
+      on-profile: pro-test
+  datasource:
+    url: jdbc:mysql://42.193.37.120:9713/researchfun?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: researchfun@888
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 9720
+
+file:
+  download: /file/download/**
+  base: /usr/local/researchfun/resources/
+  download-url: ${localhost}/file/download
+  portrait-path: ${file.base}portrait
+  document-path: ${file.base}document
+  comment-img-path: ${file.base}comment-img
+  voice-path: ${file.base}voice
+  weeklyWritingTemplate: ${file.download-url}/PDF_DOCUMENT/weeklyWriting.docx
+  weeklyName: weekly.docx # 生成周报的名字
+
+# 项目访问路径
+localhost: http://42.193.37.120:${server.port}

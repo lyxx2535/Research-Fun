@@ -17,30 +17,42 @@ import ExecutePaperAbstract from '../views/paper/ExecutePaperAbstract'
 import SearchPaper from '../views/paper/SearchPaper'
 import PaperDetail from '../views/paper/PaperDetail'
 import PaperViewer from '../views/PaperViewer.vue'
+import FindPasswd from "../views/login/FindPasswd";
+import Redirect from "../views/login/Redirect";
+import WeeklyWriting from "@/views/schedule/WeeklyWriting";
+import BindPage from "../views/login/bindPage"
 
 Vue.use(VueRouter);
-axios.defaults.withCredentials=false;
+axios.defaults.withCredentials = false;
 
 const routes = [
-    {path: '/', redirect: '/login', show:false},
-    {path: '/login', name: '登录', component: Login, show:false},
-    {path: '/register', name: '注册', component: Register, show:false},
-    {path: '/paperViewer', name: 'PDF阅读', component: PaperViewer, show:false},
+    {path: '/', redirect: '/login', show: false},
+    {path: '/direct', name: '重定向', component: Redirect, show: false},
+    {path: '/login', name: '登录', component: Login, show: false},
+    {path: '/register', name: '注册', component: Register, show: false},
+    {path: '/find', name: '找回密码', component: FindPasswd, show: false},
+    {path: '/paperViewer', name: 'PDF阅读', component: PaperViewer, show: false},
+    {path:'/bindPage',name:'绑定页面',component: BindPage,show: false},
     {
         path: '/home',
         component: Home,
         name: "我的日程",
         show: true,
-        children:[
+        children: [
             {
-                path:'/personalSchedule',
+                path: '/personalSchedule',
                 name: "个人日程",
                 component: PersonalSchedule
             },
             {
-                path:'/addSchedule',
+                path: '/addSchedule',
                 name: "添加日程",
                 component: AddSchedule
+            },
+            {
+                path: '/weeklyWriting',
+                name: "周报写作",
+                component: WeeklyWriting
             },
             {
                 path: '/groupCalendar',
@@ -63,7 +75,7 @@ const routes = [
                 component: Welcome,
                 children: [
                     {
-                        path: '/infos' ,
+                        path: '/infos',
                         name: '我的消息',
                         component: Infos
                     },
@@ -106,16 +118,16 @@ const router = new VueRouter({
 });
 
 //挂载路由导航守卫
-router.beforeEach((to,from,next) => {
+router.beforeEach((to, from, next) => {
     //to：将要访问的路径
     //from：代表从哪个路径跳转而来
     //next：是一个函数，表示放行
     //next()放行   next('/login')强制跳转
-    if(to.path === '/login' || to.path === '/register') return next()
+    if (to.path === '/login' || to.path === '/register' || to.path === '/find' || to.path === '/direct'|| to.path==='/bindPage') return next()
     //从sessionStorage中获取到保存的token值
     const tokenStr = window.sessionStorage.getItem('token');
     //没有token，强制跳转到登录页面
-    if(!tokenStr) return next('/login')
+    if (!tokenStr) return next('/login')
     next()
 
 });

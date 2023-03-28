@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.KeywordMapper">
+
+    <resultMap id="keywordMap" type="keyword">
+        <id column="kid" property="kid"/>
+        <result column="kname" property="kname"/>
+    </resultMap>
+
+    <select id="selectByDocid" resultMap="keywordMap">
+        select k.*
+        from t_keyword k
+                 join t_doc_keyword tdk on k.kid = tdk.kid
+        where tdk.did = #{did}
+    </select>
+</mapper>

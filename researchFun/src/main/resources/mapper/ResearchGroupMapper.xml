@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.ResearchGroupMapper">
+
+
+    <resultMap id="groupMap" type="researchGroup">
+        <id column="id" property="id"/>
+        <result column="group_name" property="groupName"/>
+        <result column="description" property="description"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="portrait" property="portrait"/>
+        <result column="directions" property="directions"/>
+    </resultMap>
+
+    <select id="findByUid" resultMap="groupMap">
+        select g.*
+        from t_researchgroup g
+                 join (select * from t_user_group where uid = #{uid}) ug
+                      on g.id = ug.gid
+    </select>
+</mapper>

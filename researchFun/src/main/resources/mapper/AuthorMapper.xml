@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.AuthorMapper">
+
+    <resultMap id="authorMap" type="author">
+        <id column="auid" property="auId"/>
+        <result column="aname" property="aname"/>
+    </resultMap>
+
+    <select id="selectByDocid" resultMap="authorMap">
+        select a.*
+        from t_author a
+                 join t_doc_author tda on a.auid = tda.auid
+        where tda.did = #{did}
+    </select>
+</mapper>

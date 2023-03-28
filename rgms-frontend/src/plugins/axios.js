@@ -17,16 +17,18 @@ import axios from "axios";
 // 开发版
 // http://119.29.53.191:8088/
 let config = {
+  //baseURL: "http://172.28.120.162:9720",
+  //baseURL: "http://192.168.67.1:80",
+  // baseURL: "http://localhost:9720",
   baseURL: "http://42.193.37.120:9712",
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
   // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  // withCredentials: true // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
-
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent

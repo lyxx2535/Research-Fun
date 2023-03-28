@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.DocMapper">
+
+    <resultMap id="docMap" type="nju.researchfun.entity.doc.Doc">
+        <id column="did" property="did"/>
+        <result column="title" property="title"/>
+        <result column="abstract" property="abstracts"/>
+        <result column="pdflink" property="pdflink"/>
+        <result column="date" property="date"/>
+        <result column="userid" property="userid"/>
+        <result column="research_direction" property="research_direction"/>
+        <result column="groupid" property="groupid"/>
+        <result column="publisher" property="publisher"/>
+        <result column="publishdate" property="publishdate"/>
+    </resultMap>
+
+    <select id="selectByKeyword" resultMap="docMap">
+        select d.*
+        from t_doc d
+                 join t_doc_keyword tdk on d.did = tdk.did
+                 join t_keyword tk on tdk.kid = tk.kid
+        where tk.kname like concat('%', #{keyword}, '%')
+        order by d.date desc
+    </select>
+
+    <select id="selectByAuthorName" resultMap="docMap">
+        select d.*
+        from t_doc d
+                 join t_doc_author tda on d.did = tda.did
+                 join t_author ta on tda.auid = ta.auid
+        where ta.aname like concat('%', #{keyword}, '%')
+        order by d.date desc
+    </select>
+</mapper>

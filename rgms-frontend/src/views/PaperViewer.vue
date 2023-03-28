@@ -38,16 +38,21 @@ export default {
         this.id = window.sessionStorage.getItem("userId");
         this.username = window.sessionStorage.getItem("username");
         this.portrait = window.sessionStorage.getItem("portrait");
-        this.pdflink = this.$route.query.pdflink;
+        this.pdflink = this.$route.query.pdflink;//接收传进来的pdflink和pdfId
         this.pdfId = this.$route.query.did;
+        this.commentContent = this.$route.query.content,
+        this.position = this.$route.query.position,
+        this.commentId = this.$route.query.id,
         // http://119.29.53.191:8081
-        // http://localhost:3000
         // http://42.193.37.120:9714
-        this.pdfSrc = "http://42.193.37.120:9714/react-pdf-highlighter?"
+        this.pdfSrc = "http://localhost:3000//react-pdf-highlighter?"
                     + "url=" + this.pdflink
                     + "&did=" + this.pdfId
                     + "&userId=" + this.id
-                    + "&username=" + this.username;
+                    + "&username=" + this.username
+                    + "&commentContent=" + this.commentContent
+                    + "&position=" + this.position
+                    + "&commentId=" + this.commentId;
         this.storeUnreadInfoNum();
     },
     mounted() {

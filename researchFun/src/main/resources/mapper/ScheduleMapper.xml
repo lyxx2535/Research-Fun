@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.ScheduleMapper">
+
+
+    <resultMap id="scheduleMap" type="schedule">
+        <id property="id" column="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="date" property="date"/>
+        <result column="deadline" property="deadline"/>
+        <result column="content" property="content"/>
+        <result column="group_id" property="groupId"/>
+        <result column="state" typeHandler="nju.researchfun.handler.EnumHandler" property="state"/>
+    </resultMap>
+
+
+    <select id="findByGroupIdAndDate" resultMap="scheduleMap">
+        select *
+        from t_schedule
+        where group_id = #{groupId}
+          and year(date) = #{year}
+          and month(date) = #{month}
+          and state != 3
+    </select>
+
+    <select id="findByDDL" resultMap="scheduleMap">
+        select *
+        from t_schedule
+        where year(deadline) = #{year}
+          and month(deadline) = #{month}
+          and DAYOFMONTH(deadline) = #{date}
+          and state = 1
+    </select>
+
+
+    <select id="findByUserIdAndYearAndMonth" resultMap="scheduleMap">
+        select *
+        from t_schedule
+        where accepter_id = #{accepterId}
+          and year(date) = #{year}
+          and month(date) = #{month}
+          and state != 3
+    </select>
+
+</mapper>

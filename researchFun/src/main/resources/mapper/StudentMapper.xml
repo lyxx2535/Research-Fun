@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nju.researchfun.mapper.StudentMapper">
+
+
+    <resultMap id="studentMap" type="student">
+        <result column="uid" property="uid"/>
+        <result column="default_research_direction" property="defaultResearchDirection"/>
+        <result column="teacher_id" property="teacherId"/>
+    </resultMap>
+
+    <select id="findStudentByUsernameAndTrueName" resultMap="studentMap">
+        select s.*
+        from (t_student s left join t_user u on s.uid = u.id)
+                 left join t_researchgroup r on u.group_id = r.id
+        where u.username like concat('%', #{key}, '%')
+           or u.true_name like concat('%', #{key}, '%')
+    </select>
+</mapper>

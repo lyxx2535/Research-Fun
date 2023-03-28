@@ -4,3 +4,9 @@ dist/
 .idea/
 *.zip
 .vscode/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
